@@ -33,15 +33,15 @@ class Player {
         }
     };
 
-    isLetter(str) {
-        return str.length === 1 && str.match(/[a-z]/i);
+    isLetterOrNumber(str) {
+        return str.length === 1 && str.match(/[a-z0-9]/i);
     };
 
     onInput(event) {
         var key = event.key;
         key = key.toLowerCase();
 
-        if (this.isLetter(key)) {
+        if (this.isLetterOrNumber(key)) {
             this.onType(key);
         }
     }

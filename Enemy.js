@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(game) {
+    constructor(game, text) {
         this.game = game;
         this.animator = new Animator(ASSET_MANAGER.getAsset("./assets/Zombie_left.png"),
          0, 64, 32, 32, 8, 0.15);
@@ -8,7 +8,7 @@ class Enemy {
          this.x = 700;
          this.y = 160;
          this.speed = -50;
-         this.text = Enemy.getRandomWord();
+         this.text = text;
          this.completed_letters = 0;
     };
 

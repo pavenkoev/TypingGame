@@ -23,6 +23,16 @@ const resizeCanvas = () => {
 	canvas.style.transform = `scale(${ratio})`
 }
 
+function loadTextFileSync(url) {
+	let xhr = new XMLHttpRequest();
+	xhr.open("GET", url, false);
+	xhr.send(null);
+	if (xhr.status === 200) {
+	  return xhr.responseText;
+	} else {
+	  throw new Error(`Failed to load file: ${xhr.status}`);
+	}
+  }
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
@@ -37,6 +47,12 @@ ASSET_MANAGER.downloadAll(() => {
 
 	gameEngine.init(ctx);
 
+	const generator = new MarkovChain();
+
+	const text = loadTextFileSync("assets/the_war_of_the_worlds.txt");
+	generator.buildChain(text);
+
+	gameEngine.generator = generator;
 
 	let enemyManager = new EnemyManager(gameEngine);
 	gameEngine.addEntity(enemyManager);
