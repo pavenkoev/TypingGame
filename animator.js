@@ -6,6 +6,7 @@ class Animator {
         this.totalTime = frameCount * frameDuration;
         this.scale = 1;
         this.isRepeating = false;
+        this.reverse = false
     };
 
     drawFrame(tick, ctx, x, y) {
@@ -16,11 +17,25 @@ class Animator {
         }
         const frame = this.currentFrame();
 
+        if (this.reverse) {
+			ctx.save()
+			ctx.scale(-1, 1)
+			ctx.translate(ctx.width, 0)
+		}
+
+		if (this.reverse) {
+			x = -(x + this.width)
+		}
+
         ctx.drawImage(this.spritesheet,
             this.xStart + this.width*frame, this.yStart,
             this.width, this.height,
             x, y,
             this.width * this.scale, this.height * this.scale);
+
+        if (this.reverse) {
+            ctx.restore()
+        }
     };
 
     currentFrame() {

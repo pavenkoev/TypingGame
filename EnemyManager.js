@@ -7,7 +7,7 @@ class EnemyManager {
         this.minYPosition = 100;
         this.maxYPosition = 240;
         this.nextYPosition = 100;
-        this.yStep = 16;
+        this.yStep = 32;
 
         this.paramPresets = [
             {
@@ -94,6 +94,11 @@ class EnemyManager {
         return this.paramPresets[Math.floor(Math.random() * this.paramPresets.length)];
     }
 
+    createRandomEnemy(game, text) {
+        let func = EnemyManager.enemyTypes[Math.floor(Math.random() * EnemyManager.enemyTypes.length)];
+        return func(game, text);
+    }
+
     createEnemy() {
         const yPos = this.getYPosition();
         if (yPos === null) {
@@ -105,11 +110,20 @@ class EnemyManager {
         let words = this.game.generator.generateText(null, params.words - 1);
         this.startWord = words[words.length - 1];
         let text = words.join(' ');
-        let enemy = new Enemy(this.game, text);
+        // let enemy = new FlyingEyeEnemy(this.game, text);
+        let enemy = this.createRandomEnemy(this.game, text);
         enemy.x = 700;
         enemy.y = yPos;
         enemy.speed = -this.getRandomInt(params.speed_min, params.speed_max);
 
         this.game.addEntity(enemy);
     }
+
+    static enemyTypes = [
+        // (game, text) => new ZombieEnemy(game, text),
+        (game, text) => new SkeletonEnemy(game, text),
+        (game, text) => new MushroomEnemy(game, text),
+        (game, text) => new GoblinEnemy(game, text),
+        (game, text) => new FlyingEyeEnemy(game, text),
+    ];
 }

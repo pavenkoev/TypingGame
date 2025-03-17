@@ -13,16 +13,56 @@
     <script type="text/javascript" src="./MarkovChain.js"></script>
     <script type="text/javascript" src="./Player.js"></script>
     <script type="text/javascript" src="./Enemy.js"></script>
+    <script type="text/javascript" src="./ZombieEnemy.js"></script>
+    <script type="text/javascript" src="./GoblinEnemy.js"></script>
+    <script type="text/javascript" src="./MushroomEnemy.js"></script>
+    <script type="text/javascript" src="./SkeletonEnemy.js"></script>
+    <script type="text/javascript" src="./FlyingEyeEnemy.js"></script>
     <script type="text/javascript" src="./EnemyManager.js"></script>
     <script type="text/javascript" src="./main.js"></script>
 
     <style>
+        canvas {
+            background: url('assets/forest_bg.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
         canvas:focus {
-                outline: 0;
-            }
+            outline: 0;
+        }
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #9DC183;
+        }
+        #menu {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            backdrop-filter: blur(0.25rem);
+        }
+        #game-over {
+            /* display: none; */
+            visibility: hidden;
+        }
     </style>
 </head>
-<body>
-    <canvas id="gameWorld" autofocus tabindex='0' width="736" height="363" style="background: url('assets/forest_bg.png'); background-repeat: no-repeat; background-size: 100% 100%;"></canvas>
+<body onload="trySetupGameOverScreen()">
+    <canvas id="gameWorld" width="736" height="363" autofocus tabindex='0'></canvas>
+    <div id="menu">
+        <div id="game-over">
+            <h2>Game Over</h2>
+            <h4 id="score">Score: 10</h4>
+            <h4 id="time">Time: 10s</h4>
+        </div>
+        <button onclick="startGame()">Start game</button>
+    </div>
 </body>
 </html>

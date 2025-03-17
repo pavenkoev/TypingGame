@@ -1,29 +1,39 @@
 class Enemy {
     constructor(game, text) {
         this.game = game;
-        this.animator = new Animator(ASSET_MANAGER.getAsset("./assets/Zombie_left.png"),
-         0, 64, 32, 32, 8, 0.15);
-        this.animator.scale = 3;
+        // this.animator = new Animator(ASSET_MANAGER.getAsset("./assets/Zombie_left.png"),
+        //  0, 64, 32, 32, 8, 0.15);
+        // this.animator.scale = 3;
+        this.animator = this.createAnimator();
 
-         this.x = 700;
-         this.y = 160;
-         this.speed = -50;
-         this.text = text;
-         this.completed_letters = 0;
+        this.x = 700;
+        this.y = 160;
+        this.speed = -50;
+        this.text = text;
+        this.completed_letters = 0;
     };
 
+    createAnimator() {
+        return null;
+    }
+
     update() {
-        this.x += this.speed*this.game.clockTick;
+        this.x += this.speed * this.game.clockTick;
         if (this.x > 857) this.x = 220;
 
-        if (this.x < 100 || this.completed_letters === this.text.length){
+        if (this.x < 100) {
             this.removeFromWorld = true;
+            this.game.player.hit(10);
+        } 
+        else if (this.completed_letters === this.text.length) {
+            this.removeFromWorld = true;
+            this.game.player.heal(1);
         }
     };
 
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y);
-        this.drawText(ctx, this.x, this.y);
+        this.drawText(ctx, this.x - 75, this.y);
     };
 
     getUntypedCharacters() {
@@ -33,7 +43,7 @@ class Enemy {
     drawText(ctx, x, y) {
         ctx.fillStyle = "red";
         ctx.font = "20px Arial";
-        
+
         let competed = this.text.substring(0, this.completed_letters);
         let rest = this.getUntypedCharacters();
 
@@ -52,10 +62,10 @@ class Enemy {
 
         console.log('next: ' + this.text.charAt(this.completed_letters));
 
-        while (this.completed_letters < this.text.length && 
+        while (this.completed_letters < this.text.length &&
             this.text.charAt(this.completed_letters) === ' ') {
-         this.completed_letters++;
-     }
+            this.completed_letters++;
+        }
     }
 
     static words = [
@@ -89,10 +99,10 @@ class Enemy {
         "silent woods",
         "wandering spirit",
         "stormy sky"
-      ];
+    ];
 
-      static getRandomWord() {
+    static getRandomWord() {
         const index = Math.floor(Math.random() * Enemy.words.length);
         return Enemy.words[index];
-      }
+    }
 }
